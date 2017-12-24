@@ -102,17 +102,13 @@ public class QuestionPanel extends JPanel implements ActionListener, MouseListen
         if (JOptionPane.showConfirmDialog(this, "Do you want to delete this answer?", "Warning", JOptionPane.YES_NO_CANCEL_OPTION) == JOptionPane.YES_OPTION) {
             DefaultTableModel model = (DefaultTableModel) answers.getModel();
 
-            Question question = getQuestion();
-
-            question.removeAnswer(id);
-            
-            for (int i = model.getRowCount() - 1; i >= 0; i--)
+            model.removeRow(id);
+            for (int i = id + 1; i < model.getRowCount(); i++) {
+                model.insertRow(i - 1, new Object[] {i - 1, model.getValueAt(i, 1), model.getValueAt(i, 2)});
                 model.removeRow(i);
-
-            for (int i = 0; i < question.getAnswerCount(); i++) {
-                Answer answer = question.getAnswers().get(i);
-                model.addRow(new Object[]{i, answer.getText(), answer.getNextQuestionID()});
             }
+            
+            counter = model.getRowCount();
         }
     }
 
