@@ -40,6 +40,10 @@ public class Question {
     public void addAnswer(String text, int nextQuestionID) {
         answers.add(new Answer(text, nextQuestionID));
     }
+    
+    public void removeAnswer(int id) {
+        answers.remove(id);
+    }
 
     public void setNextQuestionID(int id) {
         answers.get(id).setNextQuestionID(id);
