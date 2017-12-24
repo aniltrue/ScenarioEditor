@@ -104,7 +104,7 @@ public class QuestionPanel extends JPanel implements ActionListener, MouseListen
 
             model.removeRow(id);
             for (int i = id + 1; i < model.getRowCount(); i++) {
-                model.insertRow(i - 1, new Object[] {i - 1, model.getValueAt(i, 1), model.getValueAt(i, 2)});
+                model.insertRow(i - 1, new Object[] {i - 1, model.getValueAt(i, 1).toString(), (int) model.getValueAt(i, 2)});
                 model.removeRow(i);
             }
             
