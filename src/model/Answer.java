@@ -12,7 +12,16 @@ public class Answer {
         this.nextQuestionID = nextQuestionID;
 		achievement = null;
     }
-
+	
+	public Answer(JSONObject answer) {
+		this(answer.get("AnswerText").toString(), (int) (long) answer.get("NextQuestionID"));
+		boolean hasAchievement = (boolean) answer.get("HasAchievement);
+		if (!hasAchievement)
+			return;
+		
+		this.achievement = new Achievement(answer.get("AchievementText").toString(), (int) (long) answer.get("AchievementPoint"));
+	}
+													  
     public String getText() {
         return text;
     }
