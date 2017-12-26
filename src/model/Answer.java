@@ -21,7 +21,7 @@ public class Answer {
 		
 		this.achievement = new Achievement(answer.get("AchievementText").toString(), (int) (long) answer.get("AchievementPoint"));
 	}
-													  
+
     public String getText() {
         return text;
     }
