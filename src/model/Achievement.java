@@ -13,16 +13,6 @@ public class Achievement {
     this.point = point;
   }
   
-  public Achievement(JSONObject achievement) {
-    try {
-      text = achievement.get("Text").toString();
-      point = (int) (long) achievement.get("Point");
-      
-    } catch (ClassCastException e) {
-      JOptionPane.showMessageDialog(null, e.getMessage(), "Casting Error", JOptionPane.ERROR_MESSAGE);
-    }
-  }
-  
   public String getText() {
     return text;
   }
