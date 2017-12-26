@@ -5,10 +5,12 @@ import org.json.simple.JSONObject;
 public class Answer {
     private String text;
     private int nextQuestionID;
+	private Achievement achievement;
 
     public Answer(String text, int nextQuestionID) {
         this.text = text;
         this.nextQuestionID = nextQuestionID;
+		achievement = null;
     }
 
     public String getText() {
@@ -18,6 +20,14 @@ public class Answer {
     public int getNextQuestionID() {
         return nextQuestionID;
     }
+	
+	public Achievement getAchievement() {
+		return achievement;
+	}
+	
+	public boolean hasAchievement() {
+		return achievement == null;
+	}
 
     public void setText(String text) {
         this.text = text;
@@ -26,6 +36,18 @@ public class Answer {
     public void setNextQuestionID(int questionID) {
         this.nextQuestionID = questionID;
     }
+	
+	public void setAchievement(Achievement achievement) {
+		this.achievement = achievement;
+	}
+	
+	public void setAchievement(String text, int point) {
+		this.achievement = new Achievement(text, point);
+	}
+	
+	public void removeAchievement() {
+		this.achievement = null;
+	}
 
     @Override
     public String toString() {
@@ -36,7 +58,12 @@ public class Answer {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("AnswerText", text);
         jsonObject.put("NextQuestionID", nextQuestionID);
-
-        return jsonObject;
+		if (!hasAchievement())
+			jsonObject.put("HasAchievement", false);
+		else {
+			jsonObject.put("HasAchievement", true);
+			jsonObject.put("AchievementText", achievement.getText());
+			jsonObject.put("AchievementPoint", achievement.getPoint());
+		}
     }
 }
