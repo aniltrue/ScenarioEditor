@@ -39,7 +39,7 @@ public class QuestionPanel extends JPanel implements ActionListener, MouseListen
         topPanel.add(addAnswerButton);
 
         // Table
-        String[] columns = {"ID", "Text", "New Question ID"};
+        String[] columns = {"ID", "Text", "New Question ID", "Achievement Text", "Achievement Point"};
         DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(columns);
         answers = new JTable(model) {
@@ -73,7 +73,10 @@ public class QuestionPanel extends JPanel implements ActionListener, MouseListen
     private void addAnswer(Answer answer) {
         if (answer != null) {
             DefaultTableModel model = (DefaultTableModel) answers.getModel();
-            Object[] newRow = { counter, answer.getText(), answer.getNextQuestionID() };
+            if (!answer.hasAchievement())
+                Object[] newRow = { counter, answer.getText(), answer.getNextQuestionID(), "", 0 };
+            else 
+                Object[] newRow = { counter, answer.getText(), answer.getNextQuestionID(), answer.getAchievement().getText(), answer.getAchievement().getPoint() };
             model.addRow(newRow);
             counter++;
         }
