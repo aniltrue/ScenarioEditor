@@ -18,10 +18,8 @@ public class Question {
             if (answers == null)
                 return;
 
-            for (Object item : answers) {
-                JSONObject answer = (JSONObject) item;
-                this.answers.add(new Answer(answer.get("AnswerText").toString(), (int) (long) answer.get("NextQuestionID")));
-            }
+            for (Object item : answers) 
+                answers.add(new Answer((JSONObject) item);
 
         } catch (ClassCastException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Casting Error", JOptionPane.ERROR_MESSAGE);
