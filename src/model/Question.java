@@ -19,7 +19,7 @@ public class Question {
                 return;
 
             for (Object item : answers) 
-                answers.add(new Answer((JSONObject) item);
+                this.answers.add(new Answer((JSONObject) item));
 
         } catch (ClassCastException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Casting Error", JOptionPane.ERROR_MESSAGE);
@@ -35,8 +35,9 @@ public class Question {
         answers.add(new Answer(text, -1));
     }
 
-    public void addAnswer(String text, int nextQuestionID) {
+    public Answer addAnswer(String text, int nextQuestionID) {
         answers.add(new Answer(text, nextQuestionID));
+        return answers.get(answers.size() - 1);
     }
     
     public void removeAnswer(int id) {

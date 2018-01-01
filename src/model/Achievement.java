@@ -1,9 +1,5 @@
 package model;
 
-import org.json.simple.*;
-
-import javax.swing.*;
-
 public class Achievement {
   private String text;
   private int point;

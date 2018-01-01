@@ -47,6 +47,7 @@ public class QuestionPanel extends JPanel implements ActionListener, MouseListen
                 return column != 0;
             }
         };
+
         answers.addMouseListener(this);
         answers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         answers.setSelectionBackground(Color.CYAN);
@@ -72,12 +73,14 @@ public class QuestionPanel extends JPanel implements ActionListener, MouseListen
 
     private void addAnswer(Answer answer) {
         if (answer != null) {
+            Object[] newRow;
             DefaultTableModel model = (DefaultTableModel) answers.getModel();
             if (!answer.hasAchievement())
-                Object[] newRow = { counter, answer.getText(), answer.getNextQuestionID(), "", 0 };
+                newRow = new Object[] { counter, answer.getText(), "" + answer.getNextQuestionID(), "", "0" };
             else 
-                Object[] newRow = { counter, answer.getText(), answer.getNextQuestionID(), answer.getAchievement().getText(), answer.getAchievement().getPoint() };
-            model.addRow(newRow);
+                newRow = new Object[] { counter, answer.getText(), "" + answer.getNextQuestionID(), answer.getAchievement().getText(), "" + answer.getAchievement().getPoint() };
+
+            model.insertRow(counter, newRow);
             counter++;
         }
     }
@@ -86,8 +89,18 @@ public class QuestionPanel extends JPanel implements ActionListener, MouseListen
         Question question = new Question(text.getText());
         DefaultTableModel model = (DefaultTableModel) answers.getModel();
 
-        for (int i = 0; i < model.getRowCount(); i++)
-            question.addAnswer(model.getValueAt(i, 1).toString(), (int) model.getValueAt(i, 2));
+        for (int i = 0; i < model.getRowCount(); i++) {
+            try {
+                Answer answer = question.addAnswer(model.getValueAt(i, 1).toString(), Integer.parseInt(model.getValueAt(i, 2).toString()));
+                String achievementText = model.getValueAt(i, 3).toString().trim();
+                if (achievementText.equals(""))
+                    continue;
+
+                answer.setAchievement(achievementText, Integer.parseInt(model.getValueAt(i, 4).toString()));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Parsing Error!", JOptionPane.ERROR_MESSAGE);
+            }
+        }
 
         return question;
     }
@@ -106,10 +119,8 @@ public class QuestionPanel extends JPanel implements ActionListener, MouseListen
             DefaultTableModel model = (DefaultTableModel) answers.getModel();
 
             model.removeRow(id);
-            for (int i = id + 1; i < model.getRowCount(); i++) {
-                model.insertRow(i - 1, new Object[] {i - 1, model.getValueAt(i, 1).toString(), (int) model.getValueAt(i, 2)});
-                model.removeRow(i);
-            }
+            for (int i = 0; i < model.getRowCount(); i++)
+                model.setValueAt(i, i, 0);
             
             counter = model.getRowCount();
         }

@@ -122,13 +122,10 @@ public class ScenarioFrame extends JFrame implements ActionListener, MouseListen
 
         scenarioEditor.removeQuestion(id);
 
-        for (int i = model.getRowCount() - 1; i >= 0; i--)
-            model.removeRow(i);
+        model.removeRow(id);
+        for (int i = 0; i < model.getRowCount(); i++)
+            model.setValueAt(i, i, 0);
 
-        for (int i = 0; i < scenarioEditor.getQuestionCount(); i++) {
-            Question question = scenarioEditor.getQuestion(i);
-            model.addRow(new Object[]{i, question.getText()});
-        }
     }
 
     private void saveScenario(JFileChooser jFileChooser) {

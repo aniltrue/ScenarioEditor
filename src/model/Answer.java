@@ -15,7 +15,7 @@ public class Answer {
 	
 	public Answer(JSONObject answer) {
 		this(answer.get("AnswerText").toString(), (int) (long) answer.get("NextQuestionID"));
-		boolean hasAchievement = (boolean) answer.get("HasAchievement);
+		boolean hasAchievement = (boolean) answer.get("HasAchievement");
 		if (!hasAchievement)
 			return;
 		
@@ -35,7 +35,7 @@ public class Answer {
 	}
 	
 	public boolean hasAchievement() {
-		return achievement == null;
+		return achievement != null;
 	}
 
     public void setText(String text) {
@@ -74,5 +74,7 @@ public class Answer {
 			jsonObject.put("AchievementText", achievement.getText());
 			jsonObject.put("AchievementPoint", achievement.getPoint());
 		}
+
+		return jsonObject;
     }
 }
